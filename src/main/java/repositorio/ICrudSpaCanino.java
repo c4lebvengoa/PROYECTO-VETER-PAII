@@ -10,6 +10,7 @@ public interface ICrudSpaCanino {
      public List<CitaSpaCanino> listarSpa();
      boolean insertarSpa(CitaSpaCanino cita);
      public List<Mascota> listarMascotaporDni(String numdni);
-     void editarSpa();
+     boolean editarSpa(CitaSpaCanino cita);
+     boolean eliminarSpa(int idSpa);
      
 }

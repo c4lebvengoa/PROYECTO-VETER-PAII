@@ -23,5 +23,10 @@ public class DetalleHistoriaClinicaServicio {
         return detRepo.obtenerIdHistoriaPorMascota(nombreMascota);
     }
 
+    public boolean historiaClinicaExistePorMascota(String nombreMascota) {
+        return detRepo.existeHistoriaPorMascota(nombreMascota); 
+    }
+
+
 
 }

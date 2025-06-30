@@ -19,4 +19,11 @@ public class SpaCaninoServicio {
         return spaRepo.listarSpa();
     }
 
+    public boolean editarCita(CitaSpaCanino cita) {
+        return spaRepo.editarSpa(cita);
+    }
+    public boolean eliminarCita(int idSpa){
+      return spaRepo.eliminarSpa(idSpa);
+    }
+
 }

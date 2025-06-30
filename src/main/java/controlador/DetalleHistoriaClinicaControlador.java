@@ -94,15 +94,29 @@ public class DetalleHistoriaClinicaControlador {
         };
 
         List<DetalleHistoriaClinica> detalles = servicio.obtenerDetallesHist();
+     
         vista.AreaDet.setText("");
+        String textoTotal = "";
 
         for (DetalleHistoriaClinica c : detalles) {
             if (mapaHistoriaAMascota.get(c.getIdHistClinica()) != null
                     && mapaHistoriaAMascota.get(c.getIdHistClinica()) == idMascota) {
+
                 modelo.addRow(new Object[]{c.getId_DetHistoriaClinica()});
-                mostrarDetalleEnTexto(c);
+
+                textoTotal += "ID: " + c.getId_DetHistoriaClinica() + "\n"
+                        + "Peso: " + c.getPeso() + " kg\n"
+                        + "Temperatura: " + c.getTemperatura() + " °C\n"
+                        + "Anamnesis: " + c.getAnamnesis() + "\n"
+                        + "Observaciones: " + c.getObservaciones() + "\n"
+                        + "Dx Presuntivo: " + c.getDxPresuntivo() + "\n"
+                        + "Dx Definitivo: " + c.getDxDefinitivo() + "\n"
+                        + "Tratamiento: " + c.getTratamiento() + "\n"
+                        + "--------------------------------------------------\n";
             }
         }
+        vista.AreaDet.setText(textoTotal);
+
 
         vista.tablaDet.setModel(modelo);
         for (int i = 0; i < vista.tablaDet.getColumnCount(); i++) {
@@ -162,18 +176,26 @@ public class DetalleHistoriaClinicaControlador {
     }
 
     public void crearHistoriaClinica() {
-        String nombreMascota = vista.cbxMascota.getSelectedItem().toString();
-        if (nombreMascota == null || nombreMascota.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Seleccione una mascota válida.");
-            return;
-        }
-        int idHistoria = servicio.registrarHistoriaClinica(nombreMascota);
-        if (idHistoria > 0) {
-            vista.setIdHistoriaClinica(idHistoria);
-            JOptionPane.showMessageDialog(vista, "Historia clínica creada con ID: " + idHistoria);
-        } else {
-            JOptionPane.showMessageDialog(vista, "Error al crear historia clínica.");
-        }
+       String nombreMascota = vista.cbxMascota.getSelectedItem().toString();
+
+    if (nombreMascota == null || nombreMascota.isEmpty()) {
+        JOptionPane.showMessageDialog(vista, "Seleccione una mascota válida.");
+        return;
+    }
+
+    // Validación si ya existe
+    if (servicio.historiaClinicaExistePorMascota(nombreMascota)) {
+        JOptionPane.showMessageDialog(vista, "La historia clínica para esta mascota ya existe.");
+        return;
+    }
+
+    int idHistoria = servicio.registrarHistoriaClinica(nombreMascota);
+    if (idHistoria > 0) {
+        vista.setIdHistoriaClinica(idHistoria);
+        JOptionPane.showMessageDialog(vista, "Historia clínica creada con ID: " + idHistoria);
+    } else {
+        JOptionPane.showMessageDialog(vista, "Error al crear historia clínica.");
+    }
 
     }
 

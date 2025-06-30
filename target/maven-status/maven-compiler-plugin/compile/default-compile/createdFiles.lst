@@ -121,6 +121,7 @@ vista\RegistrarProveedor.class
 vista\DetalleHistoriaClinicaFrm$10.class
 repositorio\ClienteRepositorio.class
 vista\CarnetVacuna$8.class
+vista\CitaSpaCaninoFrm$12.class
 vista\Clientes$1.class
 repositorio\UsuarioRepositorio.class
 vista\Login$8.class
@@ -149,6 +150,7 @@ vista\Login$7.class
 vista\CitaSpaCaninoFrm$9.class
 vista\RegistrarMascota$3.class
 vista\RegistrarPedido$5.class
+vista\CitaSpaCaninoFrm$11.class
 entidad\Pedido.class
 vista\RegistrarProducto$7.class
 vista\GestionPedidos$2.class

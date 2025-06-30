@@ -13,12 +13,13 @@ public class SpaCaninoRepositorio implements ICrudSpaCanino {
     @Override
     public List<CitaSpaCanino> listarSpa() {
       List<CitaSpaCanino> citas=new ArrayList<>();
-       String sql="SELECT c.fecha_cspa, c.hora_cspa, c.tamano, c.tipo_servicio, c.tipo_bano, c.tipo_corte, "
-               + "c.precio_cspa, c.estado_cspa, "
-               + "p.nombres_pspa, m.nombre_mas "
-               + "FROM CitaSpaCanino c "
-               + "JOIN PersonalSpa p ON c.cod_personalSpa = p.cod_personalSpa "
-               + "JOIN Mascota m ON c.id_mascota = m.id_mascota";
+       String sql = "SELECT c.id_citaSpa, c.fecha_cspa, c.hora_cspa, c.tamano, c.tipo_servicio, c.tipo_bano, c.tipo_corte, "
+           + "c.precio_cspa, c.estado_cspa, "
+           + "p.nombres_pspa, m.nombre_mas "
+           + "FROM CitaSpaCanino c "
+           + "JOIN PersonalSpa p ON c.cod_personalSpa = p.cod_personalSpa "
+           + "JOIN Mascota m ON c.id_mascota = m.id_mascota";
+
         try (Connection con = ConexionBD.conectar();
          PreparedStatement ps = con.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
@@ -36,7 +37,7 @@ public class SpaCaninoRepositorio implements ICrudSpaCanino {
             mascota.setNombre(rs.getString("nombre_mas"));
             cita.setMascota(mascota);
 
-       
+            cita.setId_CitaSpa(rs.getInt("id_citaSpa"));
             cita.setTamano(rs.getString("tamano"));
             cita.setTipoServicio(rs.getString("tipo_servicio"));
             cita.setTipoBano(rs.getString("tipo_bano"));
@@ -109,6 +110,49 @@ public class SpaCaninoRepositorio implements ICrudSpaCanino {
         }
         return lista;
     }
+
+   @Override
+public boolean editarSpa(CitaSpaCanino cita) {
+    String sql = "UPDATE CitaSpaCanino SET   tipo_servicio = ?, tipo_bano = ?, tipo_corte = ?, fecha_cspa = ?, hora_cspa = ?, estado_cspa = ?, precio_cspa = ? WHERE id_citaSpa = ?";
+
+    try (Connection con = ConexionBD.conectar();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        stmt.setString(1, cita.getTipoServicio());
+        stmt.setString(2, cita.getTipoBano());
+        stmt.setString(3, cita.getTipoCorte());
+        stmt.setDate(4, cita.getFecha());
+        stmt.setTime(5, java.sql.Time.valueOf(cita.getHora()));
+        stmt.setInt(6, cita.getEstado());
+        stmt.setDouble(7, cita.getPrecio());
+        stmt.setInt(8, cita.getId_CitaSpa()); 
+
+        int filas = stmt.executeUpdate();
+        return filas > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+        }
+    }
+
+    @Override
+    public boolean eliminarSpa(int idCitaSpa) {
+        String sql = "DELETE FROM CitaSpaCanino WHERE id_citaSpa = ?";
+
+        try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCitaSpa);
+
+            int filas = stmt.executeUpdate();
+            return filas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
    
    

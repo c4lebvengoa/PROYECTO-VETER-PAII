@@ -26,7 +26,7 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
      
     }
     public void listarMascotaDet(List<Mascota> lista){
-        listaMascotas = lista; 
+        listaMascotas = lista;
         cbxMascota.removeAllItems();
         for (Mascota m : lista) {
             cbxMascota.addItem(m.getNombre());
@@ -348,9 +348,9 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(txtidhistoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearHistoria)
-                    .addComponent(btnLimp))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLimp)
+                    .addComponent(btnCrearHistoria))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -362,13 +362,10 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarHistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarHistActionPerformed
-       try {
-        DetalleHistoriaClinica det = new DetalleHistoriaClinica();
-
         int indexMascota = cbxMascota.getSelectedIndex();
         if (indexMascota < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione una mascota");
@@ -380,6 +377,8 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
             return;
         }
+        try {
+        DetalleHistoriaClinica det = new DetalleHistoriaClinica();
 
         det.setMascota(mascota);
         det.setIdHistClinica(Integer.parseInt(txtidhistoria.getText()));
@@ -396,9 +395,6 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
         if (exito) {
             JOptionPane.showMessageDialog(this, "Detalle registrado correctamente.");
 
-     
-            controladol.listarDetallePorMascota(mascota.getNombre());
-
             AreaAnam.setText("");
             Areaobs.setText("");
             Areadxpre.setText("");
@@ -414,6 +410,9 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(null, "RELLENE TODOS LOS CAMPOS CORRECTAMENTE.");
     }
+     controladol.listarDetallePorMascota(mascota.getNombre());
+       
+
     }//GEN-LAST:event_btnAgregarHistActionPerformed
 
     private void btnEditarHistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarHistActionPerformed
@@ -444,7 +443,8 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnregresarActionPerformed
 
     private void btnCrearHistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearHistoriaActionPerformed
-       controladol.crearHistoriaClinica();
+
+        controladol.crearHistoriaClinica();
     }//GEN-LAST:event_btnCrearHistoriaActionPerformed
 
     private void cbxMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMascotaActionPerformed
@@ -461,7 +461,7 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
 
     private void btnLimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpActionPerformed
         dnipropietario.setText("");
-        cbxMascota.setSelectedItem("");
+        txtidhistoria.setText("");
     }//GEN-LAST:event_btnLimpActionPerformed
 
     public static void main(String args[]) {

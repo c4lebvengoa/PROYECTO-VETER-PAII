@@ -1,4 +1,3 @@
-
 package vista;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -14,17 +13,59 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
 
     private CitaSpaCaninoControlador controlador;
     public List<Mascota> listaMascotas;
+    private int idCspaSeleccionado = -1;
     private List<PersonalSpa> listaGroomers = new ArrayList<>();
 
     public CitaSpaCaninoFrm() {
         initComponents();
-        listaGroomers.add(new PersonalSpa(1, "Cristhian"));
-        listaGroomers.add(new PersonalSpa(2, "Abigail"));
-        listaGroomers.add(new PersonalSpa(3, "Calel UWU"));
+        tableSpa.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int fila = tableSpa.getSelectedRow();
+                if (fila >= 0) {
+                    btnAgregar.setEnabled(false);
+                    idCspaSeleccionado = Integer.parseInt(tableSpa.getValueAt(fila, 0).toString());
+                    cbxGroomer.setSelectedItem(tableSpa.getValueAt(fila, 1).toString());
+                    cbxMascota.setSelectedItem(tableSpa.getValueAt(fila, 2).toString());
+                    cbxTamano.setSelectedItem(tableSpa.getValueAt(fila, 3).toString());
+                    cbxTipoServicio.setSelectedItem(tableSpa.getValueAt(fila, 4).toString());
+                    cbxTipoBano.setSelectedItem(tableSpa.getValueAt(fila, 5).toString());
+                    cbxTipoCorte.setSelectedItem(tableSpa.getValueAt(fila, 6).toString());
+
+                    java.util.Date fecha = java.sql.Date.valueOf(tableSpa.getValueAt(fila, 7).toString());
+                    fechaSpa.setDate(fecha);
+
+                    txthoraSpa.setText(tableSpa.getValueAt(fila, 8).toString());
+
+                    String estadoTexto = tableSpa.getValueAt(fila, 9).toString();
+                    txtestado.setText(estadoTexto.equalsIgnoreCase("Activo") ? "1" : "0");
+
+                    txtprecioSpa.setText(tableSpa.getValueAt(fila, 10).toString());
+
+                    String nombreMascota = tableSpa.getValueAt(fila, 2).toString();
+
+                    cbxMascota.removeAllItems();
+
+                    cbxMascota.addItem(nombreMascota);
+
+                    cbxMascota.setSelectedItem(nombreMascota);
+
+                    cbxMascota.setEnabled(false);
+                    
+                    cbxGroomer.setEnabled(false);
+                    
+                    cbxTamano.setEnabled(false);
+
+                }
+            }
+        });
+
+        listaGroomers.add(new PersonalSpa(0, "Abigail"));
+        listaGroomers.add(new PersonalSpa(1, "Caleb"));
+        listaGroomers.add(new PersonalSpa(2, "Cristhian"));
         for (PersonalSpa g : listaGroomers) {
             cbxGroomer.addItem(g.getNombre());
         }
-
         setTitle("Cita Spa Canino");
         setLocationRelativeTo(null);
         setResizable(false);
@@ -32,14 +73,12 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         controlador.listarTabla();
     }
 
-    public void listarMascota(List<Mascota> lista){
-        listaMascotas = lista; 
-        cbxMascota.removeAllItems();
+    public void listarMascota(List<Mascota> lista) {
+        listaMascotas = lista;
         for (Mascota m : lista) {
             cbxMascota.addItem(m.getNombre());
         }
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -136,6 +175,11 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         jPanel7.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, 30));
 
         cbxTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "BAÑO", "CORTE", "BAÑO Y CORTE" }));
+        cbxTipoServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxTipoServicioActionPerformed(evt);
+            }
+        });
         jPanel7.add(cbxTipoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 200, -1));
 
         jLabel8.setText("Tipo de Baño: ");
@@ -152,7 +196,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         jLabel9.setText("Estado:");
         jPanel7.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, 30));
 
-        cbxTipoCorte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", " SImple", " Estilado", " " }));
+        cbxTipoCorte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", " SIMPLE", " ESTILADO", " " }));
         jPanel7.add(cbxTipoCorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 200, -1));
 
         jLabel10.setText("Precio              S/.");
@@ -168,10 +212,10 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         cbxTamano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "PEQUEÑO", "MEDIANO", "GRANDE" }));
         jPanel7.add(cbxTamano, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 200, -1));
 
-        cbxGroomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        cbxGroomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-" }));
         jPanel7.add(cbxGroomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 200, -1));
 
-        fechaSpa.setDateFormatString("YYYY-MM-dd");
+        fechaSpa.setDateFormatString("yyyy-MM-dd");
         jPanel7.add(fechaSpa, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 200, -1));
 
         jLabel13.setText("Tipo de Corte: ");
@@ -256,6 +300,8 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
 
         jLabel12.setText("Mascota: ");
 
+        cbxMascota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-" }));
+
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,67 +374,153 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-       try {
+        try {
+            CitaSpaCanino cita = new CitaSpaCanino();
+
+            int indexMascota = cbxMascota.getSelectedIndex();
+            if (indexMascota < 0) {
+                JOptionPane.showMessageDialog(this, "Seleccione una mascota");
+                return;
+            }
+            Mascota mascota = listaMascotas.get(indexMascota);
+            if (mascota.getId_Mascota() <= 0) {
+                JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
+                return;
+            }
+
+            cita.setMascota(mascota);
+
+            int indexGroomer = cbxGroomer.getSelectedIndex();
+            PersonalSpa groomer = listaGroomers.get(indexGroomer);
+            cita.setGroomer(groomer);
+
+            cita.setTamano(cbxTamano.getSelectedItem().toString());
+            cita.setTipoServicio(cbxTipoServicio.getSelectedItem().toString());
+            cita.setTipoBano(cbxTipoBano.getSelectedItem().toString());
+            cita.setTipoCorte(cbxTipoCorte.getSelectedItem().toString());
+
+            java.util.Date fecha = fechaSpa.getDate();
+            cita.setFecha(new java.sql.Date(fecha.getTime()));
+            cita.setHora(java.time.LocalTime.parse(txthoraSpa.getText()));
+
+            cita.setEstado(Integer.parseInt(txtestado.getText()));
+
+            cita.setPrecio(Double.parseDouble(txtprecioSpa.getText()));
+
+            boolean exito = controlador.registrarCita(cita);
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Cita registrada correctamente.");
+                controlador.listarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar la cita.");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "RELLENE TODOS LOS CAMPOS!.");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        try {
+            CitaSpaCanino cita = obtenerCitaDesdeFormulario();
+
+            if (cita.getId_CitaSpa() <= 0) {
+                JOptionPane.showMessageDialog(this, "Seleccione una cita válida de la tabla antes de editar.");
+                return;
+            }
+
+            boolean actualizado = controlador.editarCita(cita);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(this, "Cita editada correctamente.");
+                controlador.listarTabla();
+                Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al editar la cita.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+    public CitaSpaCanino obtenerCitaDesdeFormulario() {
         CitaSpaCanino cita = new CitaSpaCanino();
-           
-           int indexMascota = cbxMascota.getSelectedIndex();
-           if (indexMascota < 0) {
-               JOptionPane.showMessageDialog(this, "Seleccione una mascota");
-               return;
-           }
-           Mascota mascota = listaMascotas.get(indexMascota);
-           if (mascota.getId_Mascota() <= 0) {
-               JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
-               return;
-           }
 
-           cita.setMascota(mascota);
+        cita.setId_CitaSpa(idCspaSeleccionado);
+    
+        String nombreSeleccionado = cbxMascota.getSelectedItem().toString();
 
+        Mascota mascotaSeleccionada = new Mascota();
+        mascotaSeleccionada.setNombre(nombreSeleccionado);
+        mascotaSeleccionada.setId_Mascota(0);
+        cita.setMascota(mascotaSeleccionada);
 
-           int indexGroomer = cbxGroomer.getSelectedIndex();
-           PersonalSpa groomer = listaGroomers.get(indexGroomer);
-           cita.setGroomer(groomer);
+        int indexGroomer = cbxGroomer.getSelectedIndex();
+        cita.setGroomer(listaGroomers.get(indexGroomer));
 
         cita.setTamano(cbxTamano.getSelectedItem().toString());
         cita.setTipoServicio(cbxTipoServicio.getSelectedItem().toString());
         cita.setTipoBano(cbxTipoBano.getSelectedItem().toString());
         cita.setTipoCorte(cbxTipoCorte.getSelectedItem().toString());
-
-        java.util.Date fecha = fechaSpa.getDate();
-        cita.setFecha(new java.sql.Date(fecha.getTime()));
+        cita.setFecha(new java.sql.Date(fechaSpa.getDate().getTime()));
         cita.setHora(java.time.LocalTime.parse(txthoraSpa.getText()));
-
         cita.setEstado(Integer.parseInt(txtestado.getText()));
-
         cita.setPrecio(Double.parseDouble(txtprecioSpa.getText()));
 
-        boolean exito = controlador.registrarCita(cita);
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Cita registrada correctamente.");
-            controlador.listarTabla(); 
-        } else {
-           JOptionPane.showMessageDialog(this, "Error al registrar la cita.");
-        }
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "RELLENE TODOS LOS CAMPOS!.");
+        return cita;
     }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        
+        Limpiar();
+            
     }//GEN-LAST:event_btnLimpiarActionPerformed
+    public void Limpiar(){
+            cbxMascota.setEnabled(true);
+            cbxMascota.removeAllItems();
+            cbxMascota.addItem("-Seleccione-");
+            fechaSpa.setDate(null);
+            txthoraSpa.setText("");
+            cbxGroomer.setSelectedIndex(0);
+            cbxTamano.setSelectedIndex(0);
+            cbxTipoServicio.setSelectedIndex(0);
+            cbxTipoBano.setSelectedIndex(0);
+            cbxTipoCorte.setSelectedIndex(0);
+            txtestado.setText("");
+            txtprecioSpa.setText("");
+            btnAgregar.setEnabled(true);
+            cbxGroomer.setEnabled(true);
+            cbxTamano.setEnabled(true);
+            cbxTipoCorte.setEnabled(true);
+            cbxTipoBano.setEnabled(true);
+            dnipropietario.setText("");
 
+    }
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+
+        int fila = tableSpa.getSelectedRow();
+        if (fila >= 0) {
+            btnAgregar.setEnabled(false);
+            idCspaSeleccionado = Integer.parseInt(tableSpa.getValueAt(fila, 0).toString());
+            if (idCspaSeleccionado >= 0) {
+                controlador.eliminarCita(idCspaSeleccionado);
+                JOptionPane.showMessageDialog(null, "Cita Spa Eliminada Exitosamente!");
+                controlador.listarTabla();
+                Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Cita Spa no se elimino,seleccione una");
+            }
+
+        }
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
       String nrodoc=dnipropietario.getText().trim();
+      if(nrodoc.isEmpty()){
+       JOptionPane.showMessageDialog(null,"INGRESE EL DNI DEL PROPIETARIO!");
+       return;
+      }
       controlador.listarMascotaporDni(nrodoc);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -397,9 +529,21 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         new Servicios().setVisible(true);
     }//GEN-LAST:event_btnregresarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void cbxTipoServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoServicioActionPerformed
+        String tipoServ=cbxTipoServicio.getSelectedItem().toString();
+        if(tipoServ.equals("BAÑO")){
+          cbxTipoCorte.setEnabled(false);
+        }
+        if(tipoServ.equals("CORTE")){
+          cbxTipoCorte.setEnabled(true);
+          cbxTipoBano.setEnabled(false);
+        }
+        if(tipoServ.equals("BAÑO Y CORTE")){
+          cbxTipoCorte.setEnabled(true);
+          cbxTipoBano.setEnabled(true);
+        }
+    }//GEN-LAST:event_cbxTipoServicioActionPerformed
+  
     public static void main(String args[]) {
         FlatLightLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {

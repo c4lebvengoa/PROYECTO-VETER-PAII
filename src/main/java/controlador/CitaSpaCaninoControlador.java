@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import servicio.SpaCaninoServicio;
 import vista.CitaSpaCaninoFrm;
 import entidad.CitaSpaCanino;
+import javax.swing.JOptionPane;
 import vista.DetalleHistoriaClinicaFrm;
 
 public class CitaSpaCaninoControlador {
@@ -26,7 +27,7 @@ public class CitaSpaCaninoControlador {
     public void listarTabla() {
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Groomer", "Mascota", "Tamaño", "Tipo de Servicio", "Tipo de Baño",
+                new String[]{"ID Cita Spa","Groomer", "Mascota", "Tamaño", "Tipo de Servicio", "Tipo de Baño",
                     "Tipo de Corte", "Fecha", "Hora", "Estado", "Precio"}) {
 
             @Override
@@ -40,6 +41,7 @@ public class CitaSpaCaninoControlador {
         for (CitaSpaCanino c : citas) {
             String estadoTexto = (c.getEstado() == 1) ? "Activo" : "Inactivo"; 
             modelo.addRow(new Object[]{
+                c.getId_CitaSpa(),
                 c.getGroomer().getNombre(),
                 c.getMascota().getNombre(),
                 c.getTamano(),
@@ -63,6 +65,13 @@ public class CitaSpaCaninoControlador {
         return servicio.registrarCita(cita);
     }
 
+    public boolean editarCita(CitaSpaCanino cita) {
+        return servicio.editarCita(cita);
+    }
+    public boolean eliminarCita(int idSpa){
+     return servicio.eliminarCita(idSpa);
+    }
+
     public void listarMascotaporDni(String nrodni) {
         List<Mascota> mascotas = servicio.obtenerNombresMascota(nrodni);
 
@@ -84,7 +93,7 @@ public class CitaSpaCaninoControlador {
             detalleFrm.listarMascotaDet(mascotas); 
             detalleFrm.setVisible(true);
         } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "No se encontraron mascotas para el DNI ingresado.");
+            JOptionPane.showMessageDialog(null, "No se encontraron mascotas para el DNI ingresado.");
         }
 }
 
