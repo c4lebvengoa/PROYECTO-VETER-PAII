@@ -7,11 +7,11 @@ import entidad.DetalleHistoriaClinica;
 
 
 public interface ICrudDetHistoriaClinica {
-    List<DetalleHistoriaClinica> listarDetHistoria();
+   List<DetalleHistoriaClinica> listarDetHistoria();
     
    int CrearHistoria(String nombreMascota);
 
-    boolean agregarDetHistoria(DetalleHistoriaClinica det);
+    int agregarDetHistoria(DetalleHistoriaClinica det);
 
     boolean editarDetHistoria(DetalleHistoriaClinica det);
     

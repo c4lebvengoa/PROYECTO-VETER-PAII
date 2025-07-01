@@ -12,9 +12,15 @@ public class DetalleHistoriaClinicaServicio {
     public Map<Integer, Integer> obtenerMapaHistoriaAMascota() {
         return detRepo.obtenerMapaHistoriaAMascota();
     }
-    public boolean registrarDet(DetalleHistoriaClinica det){
-      return detRepo.agregarDetHistoria(det);
+
+    public int registrarDet(DetalleHistoriaClinica det) {
+        return detRepo.agregarDetHistoria(det);
     }
+
+    public List<DetalleHistoriaClinica> obtenerDetallesPorIdHistClinica(int idHistClinica) {
+        return detRepo.obtenerDetallesPorIdHistClinica(idHistClinica);
+    }
+
     public int registrarHistoriaClinica(String nombreMascota) {
         return detRepo.CrearHistoria(nombreMascota);
     }

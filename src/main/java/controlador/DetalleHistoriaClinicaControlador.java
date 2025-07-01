@@ -150,13 +150,38 @@ public class DetalleHistoriaClinicaControlador {
         vista.Areadxdef.setText(c.getDxDefinitivo());
         vista.Areatra.setText(c.getTratamiento());
     }
-    public boolean registrarDet(DetalleHistoriaClinica det){
-        boolean registrado = servicio.registrarDet(det);
-        if (registrado) {
-            mapaHistoriaAMascota.put(det.getIdHistClinica(), det.getMascota().getId_Mascota());
-        }
-        return registrado;
+   public int registrarDet(DetalleHistoriaClinica det) {
+    int idGenerado = servicio.registrarDet(det);  
+    if (idGenerado > 0) {
+        det.setId_DetHistoriaClinica(idGenerado);  
+        mapaHistoriaAMascota.put(det.getIdHistClinica(), det.getMascota().getId_Mascota());
     }
+    return idGenerado;  
+} 
+   public void listarSoloIdsPorHistoria(int idHistClinica) {
+    DefaultTableModel modelo = new DefaultTableModel(
+            new Object[][]{},
+            new String[]{"ID_detHistoria","Fecha"}) {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    List<DetalleHistoriaClinica> detalles = servicio.obtenerDetallesPorIdHistClinica(idHistClinica);
+
+    for (DetalleHistoriaClinica d : detalles) {
+        modelo.addRow(new Object[]{ d.getId_DetHistoriaClinica() });
+    }
+
+    vista.tablaDet.setModel(modelo);
+    for (int i = 0; i < vista.tablaDet.getColumnCount(); i++) {
+        vista.tablaDet.getColumnModel().getColumn(i).setResizable(false);
+    }
+}
+
+
     public void listarTabla(){
     DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},

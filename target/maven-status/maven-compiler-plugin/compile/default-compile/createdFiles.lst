@@ -156,6 +156,7 @@ entidad\Pedido.class
 vista\RegistrarProducto$7.class
 vista\GestionPedidos$2.class
 repositorio\ConexionBD.class
+controlador\DetalleHistoriaClinicaControlador$5.class
 vista\GestionPedidos.class
 entidad\DetalleCitaMedica.class
 vista\GestionPedidos$3.class

@@ -95,27 +95,56 @@ public class DetalleHistoriaClinicaRepositorio implements ICrudDetHistoriaClinic
     }
 
     @Override
-    public boolean agregarDetHistoria(DetalleHistoriaClinica det) {
-        String sql = "INSERT INTO DetalleHistoriaClinica(id_histClinica,peso,temperatura,anamnesis,observaciones,dx_presuntivo,dx_definitivo,tratamiento)VALUES"
-                + "(?,?,?,?,?,?,?,?)";
-        try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
-            stmt.setInt(1, det.getIdHistClinica());
-            stmt.setDouble(2, det.getPeso());
-            stmt.setDouble(3, det.getTemperatura());
-            stmt.setString(4, det.getAnamnesis());
-            stmt.setString(5, det.getObservaciones());
-            stmt.setString(6, det.getDxPresuntivo());
-            stmt.setString(7, det.getDxDefinitivo());
-            stmt.setString(8, det.getTratamiento());
-            int filas = stmt.executeUpdate();
-            return true;
+    public int agregarDetHistoria(DetalleHistoriaClinica det) {
+    int idGenerado = -1;
+    String sql = "INSERT INTO DetalleHistoriaClinica (id_histClinica, peso, temperatura, anamnesis, observaciones, dx_presuntivo, dx_definitivo, tratamiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    try (Connection con = ConexionBD.conectar();
+         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        
+        stmt.setInt(1, det.getIdHistClinica());
+        stmt.setDouble(2, det.getPeso());
+        stmt.setDouble(3, det.getTemperatura());
+        stmt.setString(4, det.getAnamnesis());
+        stmt.setString(5, det.getObservaciones());
+        stmt.setString(6, det.getDxPresuntivo());
+        stmt.setString(7, det.getDxDefinitivo());
+        stmt.setString(8, det.getTratamiento());
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+        int filas = stmt.executeUpdate();
+
+        if (filas > 0) {
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idGenerado = rs.getInt(1);  
+                }
+            }
         }
 
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return idGenerado;
+    }
+
+    public List<DetalleHistoriaClinica> obtenerDetallesPorIdHistClinica(int idHistClinica) {
+        List<DetalleHistoriaClinica> lista = new ArrayList<>();
+        String sql = "SELECT id_detHistClinica FROM DetalleHistoriaClinica WHERE id_histClinica = ?";
+
+        try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idHistClinica);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                DetalleHistoriaClinica d = new DetalleHistoriaClinica();
+                d.setId_DetHistoriaClinica(rs.getInt("id_detHistClinica"));
+                lista.add(d);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
 
     public int obtenerIdHistoriaPorMascota(String nombreMascota) {
         int idHistoria = 0;

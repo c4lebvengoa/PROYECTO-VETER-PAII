@@ -22,9 +22,10 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         AreaDet.setEditable(false);
         txtidhistoria.setEditable(false);
+        btnCrearCarnetVacuna.setEnabled(false);
         controlador=new CitaSpaCaninoControlador(this);
         controladol=new DetalleHistoriaClinicaControlador(this);
-        controladol.listarDet();
+        //controladol.listarDet();
      
     }
     public void listarMascotaDet(List<Mascota> lista){
@@ -376,23 +377,32 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-       try{
-         DetalleHistoriaClinica det = obtenerDetDesdeFormulario();
-        int fila = tablaDet.getSelectedRow();
-        if (fila >= 0) {
-            btnAgregarHist.setEnabled(false);
-            idDetSeleccionado = Integer.parseInt(tablaDet.getValueAt(fila, 0).toString());
-            if (idDetSeleccionado >= 0) {
-                controladol.eliminarDetalle(idDetSeleccionado);
-                JOptionPane.showMessageDialog(null, "Detalle Historia Eliminado Exitosamente!");
-                controladol.listarDet();
-                controladol.listarDetallePorMascota(det.getMascota().getNombre());
-            } else {
-                JOptionPane.showMessageDialog(null, "Detalle Historia no se elimino,seleccione uno");
+        try {
+            DetalleHistoriaClinica det = obtenerDetDesdeFormulario();
+            int fila = tablaDet.getSelectedRow();
+            if (fila >= 0) {
+                btnAgregarHist.setEnabled(false);
+                idDetSeleccionado = Integer.parseInt(tablaDet.getValueAt(fila, 0).toString());
+                if (idDetSeleccionado >= 0) {
+                    int respuesta = JOptionPane.showConfirmDialog(null,
+                             "¿Está seguro de eliminar el detalle?",
+                             "Confirmar eliminación de detalle",
+                             JOptionPane.YES_NO_OPTION,
+                             JOptionPane.QUESTION_MESSAGE);
+
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        controladol.eliminarDetalle(idDetSeleccionado);
+                        JOptionPane.showMessageDialog(null, "Detalle Historia Eliminado Exitosamente!");
+                        controladol.listarDet();
+                        controladol.listarDetallePorMascota(det.getMascota().getNombre());
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Detalle Historia no se elimino,seleccione uno");
+                }
+
             }
 
-        }
-       
        }catch(Exception e){
          e.printStackTrace();
        }
@@ -400,44 +410,52 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarHistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarHistActionPerformed
-        int indexMascota = cbxMascota.getSelectedIndex();
-    if (indexMascota < 0) {
-        JOptionPane.showMessageDialog(this, "Seleccione una mascota");
-        return;
-    }
+        try {
+            int indexMascota = cbxMascota.getSelectedIndex();
+            if (indexMascota < 0) {
+                JOptionPane.showMessageDialog(this, "Seleccione una mascota");
+                return;
+            }
 
-    Mascota mascota = listaMascotas.get(indexMascota);
-    if (mascota.getId_Mascota() <= 0) {
-        JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
-        return;
-    }
+            Mascota mascota = listaMascotas.get(indexMascota);
+            if (mascota.getId_Mascota() <= 0) {
+                JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
+                return;
+            }
 
-    try {
-        DetalleHistoriaClinica det = new DetalleHistoriaClinica();
+            try {
+                DetalleHistoriaClinica det = new DetalleHistoriaClinica();
+               
+                det.setMascota(mascota);
+                det.setId_DetHistoriaClinica(idDetSeleccionado);
+                det.setIdHistClinica(Integer.parseInt(txtidhistoria.getText()));
+                det.setPeso(Double.parseDouble(txtpeso.getText()));
+                det.setTemperatura(Double.parseDouble(txttemperatura.getText()));
+                det.setAnamnesis(AreaAnam.getText());
+                det.setObservaciones(Areaobs.getText());
+                det.setDxPresuntivo(Areadxpre.getText());
+                det.setDxDefinitivo(Areadxdef.getText());
+                det.setTratamiento(Areatra.getText());
 
-        det.setMascota(mascota);
-        det.setIdHistClinica(Integer.parseInt(txtidhistoria.getText()));
-        det.setPeso(Double.parseDouble(txtpeso.getText()));
-        det.setTemperatura(Double.parseDouble(txttemperatura.getText()));
-        det.setAnamnesis(AreaAnam.getText());
-        det.setObservaciones(Areaobs.getText());
-        det.setDxPresuntivo(Areadxpre.getText());
-        det.setDxDefinitivo(Areadxdef.getText());
-        det.setTratamiento(Areatra.getText());
+                int idGenerado = controladol.registrarDet(det);
 
-        boolean exito = controladol.registrarDet(det);
+                if (idGenerado > 0) {
+                    det.setId_DetHistoriaClinica(idGenerado); 
+                    JOptionPane.showMessageDialog(null, "Detalle Registrado Correctamente!");
+                    controladol.listarSoloIdsPorHistoria(det.getIdHistClinica());
+                    controladol.mostrarDetalleEnTexto(det);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al registrar el detalle.");
+                }
 
-        if (exito) {
-           JOptionPane.showMessageDialog(null,"Detalle Registrado Correctamente!");
-           controladol.listarDet();
-           controladol.listarDetallePorMascota(mascota.getNombre());
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar el detalle.");
+
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this, "RELLENE TODOS LOS CAMPOS CORRECTAMENTE.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-    } catch ( IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, "RELLENE TODOS LOS CAMPOS CORRECTAMENTE.");
-    }
     }//GEN-LAST:event_btnAgregarHistActionPerformed
 
     private void btnEditarHistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarHistActionPerformed
@@ -460,7 +478,7 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"SELECCIONE UNA FILA!");
             e.printStackTrace();
         }       
     }//GEN-LAST:event_btnEditarHistActionPerformed
@@ -489,7 +507,23 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-      Limpiar();
+            btnAgregarHist.setEnabled(true);
+            dnipropietario.setText("");
+            cbxMascota.removeAllItems();
+            cbxMascota.addItem("-Seleccione-");
+            txtidhistoria.setText("");
+            txtpeso.setText("");
+            txttemperatura.setText("");
+            AreaAnam.setText("");
+            Areaobs.setText("");
+            Areadxpre.setText("");
+            Areadxdef.setText("");
+            Areatra.setText("");
+            btnBuscar.setEnabled(true);
+            btnAgregarHist.setEnabled(true);
+            AreaDet.setText("");
+            DefaultTableModel modelo = (DefaultTableModel)tablaDet.getModel();
+            modelo.setRowCount(0);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -497,18 +531,21 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void btnCrearCarnetVacunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCarnetVacunaActionPerformed
+
        dispose();
        new CarnetVacuna().setVisible(true);
+       
     }//GEN-LAST:event_btnCrearCarnetVacunaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String nrodoc=dnipropietario.getText().trim();
         if(nrodoc.isEmpty()){
         JOptionPane.showMessageDialog(null,"Ingrese Dni del Propietario.");
-         return;
         }
+        else{
          controlador.listarMascotaporDni(nrodoc);
-       
+         btnBuscar.setEnabled(false);
+        }
          
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -562,9 +599,14 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
 
     }
     private void btnLimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpActionPerformed
+        btnBuscar.setEnabled(true);
         dnipropietario.setText("");
-        cbxMascota.removeAllItems();
         txtidhistoria.setText("");
+        cbxMascota.removeAllItems();
+        AreaDet.setText("");
+        DefaultTableModel modelo = (DefaultTableModel) tablaDet.getModel();
+        modelo.setRowCount(0);
+        
     }//GEN-LAST:event_btnLimpActionPerformed
 
     private void btnLimpialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpialActionPerformed
