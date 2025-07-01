@@ -39,7 +39,7 @@ public class CitaSpaCaninoControlador {
         List<CitaSpaCanino> citas = servicio.obtenerCitasSpa();
 
         for (CitaSpaCanino c : citas) {
-            String estadoTexto = (c.getEstado() == 1) ? "Activo" : "Inactivo"; 
+            String estadoTexto = (c.getEstado() == 1) ? "Atendido" : "No Atendido"; 
             modelo.addRow(new Object[]{
                 c.getId_CitaSpa(),
                 c.getGroomer().getNombre(),
@@ -73,6 +73,10 @@ public class CitaSpaCaninoControlador {
     }
 
     public void listarMascotaporDni(String nrodni) {
+        if (!servicio.verificarExistenciaDni(nrodni)) {
+            JOptionPane.showMessageDialog(null, "El DNI no existe en la base de datos.");
+            return;
+        }
         List<Mascota> mascotas = servicio.obtenerNombresMascota(nrodni);
 
         if (mascotas != null) {
@@ -85,17 +89,6 @@ public class CitaSpaCaninoControlador {
 
         }
     }
-    public void abrirDetalleHistoriaClinica(String dni) {
-        List<Mascota> mascotas = servicio.obtenerNombresMascota(dni); 
-
-        if (mascotas != null && !mascotas.isEmpty()) {
-            DetalleHistoriaClinicaFrm detalleFrm = new DetalleHistoriaClinicaFrm();
-            detalleFrm.listarMascotaDet(mascotas); 
-            detalleFrm.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontraron mascotas para el DNI ingresado.");
-        }
-}
-
+ 
 
 }

@@ -415,7 +415,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Error al registrar la cita.");
             }
 
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, "RELLENE TODOS LOS CAMPOS!.");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed

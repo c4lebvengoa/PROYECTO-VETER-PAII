@@ -153,13 +153,45 @@ public class DetalleHistoriaClinicaRepositorio implements ICrudDetHistoriaClinic
 
 
     @Override
-    public void editarDetHistoria() {
-      
+    public boolean editarDetHistoria(DetalleHistoriaClinica det) {
+      String sql = "UPDATE DetalleHistoriaClinica SET   peso = ?, temperatura = ?, anamnesis = ?, observaciones = ?, dx_presuntivo = ?, dx_definitivo = ?, tratamiento = ? WHERE id_detHistClinica = ?";
+
+    try (Connection con = ConexionBD.conectar();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        stmt.setDouble(1, det.getPeso());
+        stmt.setDouble(2, det.getTemperatura());
+        stmt.setString(3, det.getAnamnesis());
+        stmt.setString(4, det.getObservaciones());
+        stmt.setString(5, det.getDxPresuntivo());
+        stmt.setString(6, det.getDxDefinitivo());
+        stmt.setString(7, det.getTratamiento());
+        stmt.setInt(8, det.getId_DetHistoriaClinica()); 
+
+        int filas = stmt.executeUpdate();
+        return filas > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+        }
     }
 
     @Override
-    public void eliminarDetHistoria() {
-       
+    public boolean eliminarDetHistoria(int idDetHist) {
+        String sql = "DELETE FROM DetalleHistoriaClinica WHERE id_detHistClinica = ?";
+
+        try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, idDetHist);
+
+            int filas = stmt.executeUpdate();
+            return filas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
    
     

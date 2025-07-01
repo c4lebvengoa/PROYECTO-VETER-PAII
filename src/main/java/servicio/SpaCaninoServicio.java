@@ -15,6 +15,10 @@ public class SpaCaninoServicio {
     public List<Mascota> obtenerNombresMascota(String nrodni){
       return spaRepo.listarMascotaporDni(nrodni);
     }
+    public boolean verificarExistenciaDni(String dni) {
+        return spaRepo.existeDniCliente(dni);
+    }
+
     public List<CitaSpaCanino> obtenerCitasSpa() {
         return spaRepo.listarSpa();
     }

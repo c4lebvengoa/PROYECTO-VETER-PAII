@@ -18,6 +18,9 @@ public class DetalleHistoriaClinicaServicio {
     public int registrarHistoriaClinica(String nombreMascota) {
         return detRepo.CrearHistoria(nombreMascota);
     }
+    public boolean editarDetalle(DetalleHistoriaClinica det){
+        return detRepo.editarDetHistoria(det);
+    }
 
     public int obtenerIdHistoriaClinicaPorNombreMascota(String nombreMascota) {
         return detRepo.obtenerIdHistoriaPorMascota(nombreMascota);
@@ -25,6 +28,9 @@ public class DetalleHistoriaClinicaServicio {
 
     public boolean historiaClinicaExistePorMascota(String nombreMascota) {
         return detRepo.existeHistoriaPorMascota(nombreMascota); 
+    }
+     public boolean eliminarDetalle(int idDetHist){
+      return detRepo.eliminarDetHistoria(idDetHist);
     }
 
 

@@ -6,15 +6,13 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 public class CarnetVacuna extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CarnetVacuna
-     */
+  
     public CarnetVacuna() {
         initComponents();
         setTitle("Carnet de Vacunación");
         setLocationRelativeTo(null);
         setResizable(false);
-        
+        txtIdHistoriaClinica.setEditable(false);
     }
 
     /**
@@ -92,7 +90,7 @@ public class CarnetVacuna extends javax.swing.JFrame {
                 txtIdHistoriaClinicaActionPerformed(evt);
             }
         });
-        jPanel2.add(txtIdHistoriaClinica, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 200, -1));
+        jPanel2.add(txtIdHistoriaClinica, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 200, -1));
 
         jLabel5.setText("Mascota:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
@@ -104,7 +102,7 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "CANINA", "FELINA", " " }));
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 190, -1));
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 190, -1));
         jPanel2.add(txtPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 200, -1));
 
         jLabel2.setText("Tratamiento: ");
@@ -126,11 +124,15 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CARNET DE VACUNACIÓN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
         jPanel3.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 80, 140, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("FECHA PRÓXIMA");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 60, -1, -1));
+
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
         jPanel3.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 180, 140, -1));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -190,7 +192,11 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("EDAD");
         jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+
+        jDateChooser3.setDateFormatString("yyyy-MM-dd");
         jPanel3.add(jDateChooser3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, 140, -1));
+
+        jDateChooser4.setDateFormatString("yyyy-MM-dd");
         jPanel3.add(jDateChooser4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 140, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

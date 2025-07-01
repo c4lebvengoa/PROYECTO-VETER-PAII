@@ -30,6 +30,7 @@ public class DetalleHistoriaClinicaControlador {
             public void mouseClicked(MouseEvent e) {
                 int fila = vista.tablaDet.getSelectedRow();
                 if (fila >= 0) {
+                    vista.btnAgregarHist.setEnabled(false);
                     int idDetalle = Integer.parseInt(vista.tablaDet.getValueAt(fila, 0).toString());
                     mostrarDetallePorId(idDetalle);
                 }
@@ -52,15 +53,6 @@ public class DetalleHistoriaClinicaControlador {
                 return false;
             }
         };
-
-        List<DetalleHistoriaClinica> detalles = servicio.obtenerDetallesHist();
-        vista.AreaDet.setText("");
-
-        for (DetalleHistoriaClinica c : detalles) {
-            modelo.addRow(new Object[]{c.getId_DetHistoriaClinica()});
-            mostrarDetalleEnTexto(c);
-        }
-
         vista.tablaDet.setModel(modelo);
         for (int i = 0; i < vista.tablaDet.getColumnCount(); i++) {
             vista.tablaDet.getColumnModel().getColumn(i).setResizable(false);
@@ -131,12 +123,13 @@ public class DetalleHistoriaClinicaControlador {
             if (c.getId_DetHistoriaClinica() == idDetalle) {
                 vista.AreaDet.setText("");
                 mostrarDetalleEnTexto(c);
+                cargarField(c);
                 break;
             }
         }
     }
 
-    private void mostrarDetalleEnTexto(DetalleHistoriaClinica c) {
+    public void mostrarDetalleEnTexto(DetalleHistoriaClinica c) {
         vista.AreaDet.append("ID: " + c.getId_DetHistoriaClinica() + "\n");
         vista.AreaDet.append("Peso: " + c.getPeso() + " kg\n");
         vista.AreaDet.append("Temperatura: " + c.getTemperatura() + " °C\n");
@@ -146,9 +139,23 @@ public class DetalleHistoriaClinicaControlador {
         vista.AreaDet.append("Dx Definitivo: " + c.getDxDefinitivo() + "\n");
         vista.AreaDet.append("Tratamiento: " + c.getTratamiento() + "\n");
         vista.AreaDet.append("--------------------------------------------------\n");
+      
+    }
+    public void cargarField(DetalleHistoriaClinica c){
+       vista.txtpeso.setText(String.valueOf(c.getPeso()));
+        vista.txttemperatura.setText(String.valueOf(c.getTemperatura()));
+        vista.AreaAnam.setText(c.getAnamnesis());
+        vista.Areaobs.setText(c.getObservaciones());
+        vista.Areadxpre.setText(c.getDxPresuntivo());
+        vista.Areadxdef.setText(c.getDxDefinitivo());
+        vista.Areatra.setText(c.getTratamiento());
     }
     public boolean registrarDet(DetalleHistoriaClinica det){
-      return servicio.registrarDet(det);
+        boolean registrado = servicio.registrarDet(det);
+        if (registrado) {
+            mapaHistoriaAMascota.put(det.getIdHistClinica(), det.getMascota().getId_Mascota());
+        }
+        return registrado;
     }
     public void listarTabla(){
     DefaultTableModel modelo = new DefaultTableModel(
@@ -166,6 +173,7 @@ public class DetalleHistoriaClinicaControlador {
         for (DetalleHistoriaClinica d: detalles) {
             modelo.addRow(new Object[]{
                 d.getId_DetHistoriaClinica(),
+                
             });
         }
 
@@ -183,20 +191,27 @@ public class DetalleHistoriaClinicaControlador {
         return;
     }
 
-    // Validación si ya existe
     if (servicio.historiaClinicaExistePorMascota(nombreMascota)) {
         JOptionPane.showMessageDialog(vista, "La historia clínica para esta mascota ya existe.");
         return;
     }
 
     int idHistoria = servicio.registrarHistoriaClinica(nombreMascota);
-    if (idHistoria > 0) {
-        vista.setIdHistoriaClinica(idHistoria);
-        JOptionPane.showMessageDialog(vista, "Historia clínica creada con ID: " + idHistoria);
-    } else {
-        JOptionPane.showMessageDialog(vista, "Error al crear historia clínica.");
+        if (idHistoria > 0) {
+            vista.setIdHistoriaClinica(idHistoria);
+            JOptionPane.showMessageDialog(vista, "Historia clínica creada con ID: " + idHistoria);
+        } else {
+            JOptionPane.showMessageDialog(vista, "Error al crear historia clínica.");
+        }
+
     }
 
+    public boolean editarDetalle(DetalleHistoriaClinica det) {
+        return servicio.editarDetalle(det);
+    }
+
+    public boolean eliminarDetalle(int idDet) {
+        return servicio.eliminarDetalle(idDet);
     }
 
 }

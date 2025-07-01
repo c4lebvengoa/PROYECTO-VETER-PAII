@@ -111,6 +111,18 @@ public class SpaCaninoRepositorio implements ICrudSpaCanino {
         return lista;
     }
 
+    public boolean existeDniCliente(String dni) {
+        String sql = "SELECT 1 FROM Cliente WHERE nro_doc_cli = ?";
+        try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, dni);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
    @Override
 public boolean editarSpa(CitaSpaCanino cita) {
     String sql = "UPDATE CitaSpaCanino SET   tipo_servicio = ?, tipo_bano = ?, tipo_corte = ?, fecha_cspa = ?, hora_cspa = ?, estado_cspa = ?, precio_cspa = ? WHERE id_citaSpa = ?";

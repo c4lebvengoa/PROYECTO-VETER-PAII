@@ -13,8 +13,8 @@ public interface ICrudDetHistoriaClinica {
 
     boolean agregarDetHistoria(DetalleHistoriaClinica det);
 
-    void editarDetHistoria();
+    boolean editarDetHistoria(DetalleHistoriaClinica det);
     
-    void eliminarDetHistoria();
+    boolean eliminarDetHistoria(int idDetHist);
     
 }
