@@ -1,3 +1,4 @@
+C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\controlador\CarnetVacunaControlador.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\controlador\CitaSpaCaninoControlador.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\controlador\DetalleHistoriaClinicaControlador.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\controlador\LoginControlador.java
@@ -26,16 +27,19 @@ C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\entidad\Procedimi
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\entidad\Producto.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\entidad\Proveedor.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\entidad\Usuario.java
+C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\CarnetVacunaRepositorio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\ClienteRepositorio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\ConexionBD.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\DetalleHistoriaClinicaRepositorio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\DistritoRepositorio.java
+C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\ICrudCarnetVacuna.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\ICrudDetHistoriaClinica.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\ICrudSpaCanino.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\InterfaceCliente.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\InterfaceDistrito.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\SpaCaninoRepositorio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\repositorio\UsuarioRepositorio.java
+C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\CarnetVacunaServicio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\ClienteServicio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\DetalleHistoriaClinicaServicio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\DistritoServicio.java
@@ -44,7 +48,7 @@ C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\Interfac
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\LoginServicio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\MenuServicio.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\servicio\SpaCaninoServicio.java
-C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\vista\CarnetVacuna.java
+C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\vista\CarnetVacunaFrm.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\vista\CitaMedica.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\vista\CitaSpaCaninoFrm.java
 C:\Users\Grafoim\Downloads\PROJECT-VETER-PAII_V2\src\main\java\vista\Clientes.java

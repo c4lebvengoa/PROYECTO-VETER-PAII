@@ -502,10 +502,17 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
             btnAgregar.setEnabled(false);
             idCspaSeleccionado = Integer.parseInt(tableSpa.getValueAt(fila, 0).toString());
             if (idCspaSeleccionado >= 0) {
-                controlador.eliminarCita(idCspaSeleccionado);
-                JOptionPane.showMessageDialog(null, "Cita Spa Eliminada Exitosamente!");
-                controlador.listarTabla();
-                Limpiar();
+                int respuesta = JOptionPane.showConfirmDialog(null,
+                             "¿Está seguro de eliminar la cita?",
+                             "Confirmar eliminación de cita",
+                             JOptionPane.YES_NO_OPTION,
+                             JOptionPane.QUESTION_MESSAGE);
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Cita Spa Eliminada Exitosamente!");
+                    controlador.eliminarCita(idCspaSeleccionado);
+                    controlador.listarTabla();
+                    Limpiar();
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Cita Spa no se elimino,seleccione una");
             }

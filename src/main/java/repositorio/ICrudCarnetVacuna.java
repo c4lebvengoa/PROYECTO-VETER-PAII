@@ -5,7 +5,7 @@ import entidad.CarnetVacunacion;
 
 
 public interface ICrudCarnetVacuna {
-    int CrearCarnet(String nombreMascota);
+    int CrearCarnet(int idHistoriaClinica);
 
     int agregarVacuna(CarnetVacunacion vac);
 

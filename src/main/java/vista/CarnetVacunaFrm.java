@@ -4,16 +4,20 @@ package vista;
 import com.formdev.flatlaf.FlatLightLaf;
 
 
-public class CarnetVacuna extends javax.swing.JFrame {
+public class CarnetVacunaFrm extends javax.swing.JFrame {
 
   
-    public CarnetVacuna() {
+    public CarnetVacunaFrm() {
         initComponents();
         setTitle("Carnet de Vacunación");
         setLocationRelativeTo(null);
         setResizable(false);
-        txtidhistoria.setEditable(false);
+        txtidCarnet.setEditable(false);
     }
+    public void setIdCarnetVacuna(int idCarnet) {
+    txtidCarnet.setText(String.valueOf(idCarnet));
+}
+   
 
   
     @SuppressWarnings("unchecked")
@@ -25,7 +29,7 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtidhistoria = new javax.swing.JTextField();
+        txtidCarnet = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -38,7 +42,7 @@ public class CarnetVacuna extends javax.swing.JFrame {
         txtMascota = new javax.swing.JTextField();
         txttipoDesp = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtidhistoria1 = new javax.swing.JTextField();
+        txtidhistoria = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         fechaproxCan = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
@@ -83,12 +87,12 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jLabel3.setText("ID Carnet: ");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, -1));
 
-        txtidhistoria.addActionListener(new java.awt.event.ActionListener() {
+        txtidCarnet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidhistoriaActionPerformed(evt);
+                txtidCarnetActionPerformed(evt);
             }
         });
-        jPanel2.add(txtidhistoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 60, -1));
+        jPanel2.add(txtidCarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 60, -1));
 
         jLabel5.setText("Mascota:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
@@ -125,12 +129,12 @@ public class CarnetVacuna extends javax.swing.JFrame {
         jLabel6.setText("ID Historia Clínica: ");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
-        txtidhistoria1.addActionListener(new java.awt.event.ActionListener() {
+        txtidhistoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidhistoria1ActionPerformed(evt);
+                txtidhistoriaActionPerformed(evt);
             }
         });
-        jPanel2.add(txtidhistoria1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 200, -1));
+        jPanel2.add(txtidhistoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 200, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 340, 440));
 
@@ -309,17 +313,17 @@ public class CarnetVacuna extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtidhistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidhistoriaActionPerformed
+    private void txtidCarnetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidCarnetActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtidhistoriaActionPerformed
+    }//GEN-LAST:event_txtidCarnetActionPerformed
 
     private void cbxTipoVacunaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoVacunaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipoVacunaActionPerformed
 
-    private void txtidhistoria1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidhistoria1ActionPerformed
+    private void txtidhistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidhistoriaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtidhistoria1ActionPerformed
+    }//GEN-LAST:event_txtidhistoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,7 +332,7 @@ public class CarnetVacuna extends javax.swing.JFrame {
         FlatLightLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CarnetVacuna().setVisible(true);
+                new CarnetVacunaFrm().setVisible(true);
             }
         });
     }
@@ -375,8 +379,8 @@ public class CarnetVacuna extends javax.swing.JFrame {
     private javax.swing.JTable tablaVacuna;
     private javax.swing.JTextField txtMascota;
     private javax.swing.JTextField txtPropietario;
+    private javax.swing.JTextField txtidCarnet;
     private javax.swing.JTextField txtidhistoria;
-    private javax.swing.JTextField txtidhistoria1;
     private javax.swing.JTextField txttipoDesp;
     private javax.swing.JTextArea txttratamiento;
     // End of variables declaration//GEN-END:variables

@@ -15,7 +15,7 @@ public class DetalleHistoriaClinicaRepositorio implements ICrudDetHistoriaClinic
 
     @Override
     public int CrearHistoria(String nombreMascota) {
-         int idGenerado = -1;
+    int idGenerado = -1;
     String sqlSelect = "SELECT id_mascota FROM Mascota WHERE nombre_mas=?";
     String sqlInsert = "INSERT INTO HistoriaClinica(id_mascota, fecha_registro) VALUES (?, NOW())";
 
@@ -178,8 +178,6 @@ public class DetalleHistoriaClinicaRepositorio implements ICrudDetHistoriaClinic
         }
         return false;
     }
-
-
 
     @Override
     public boolean editarDetHistoria(DetalleHistoriaClinica det) {

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import repositorio.DetalleHistoriaClinicaRepositorio;
 public class DetalleHistoriaClinicaServicio {
-    private DetalleHistoriaClinicaRepositorio detRepo=new DetalleHistoriaClinicaRepositorio();
+    private final DetalleHistoriaClinicaRepositorio detRepo=new DetalleHistoriaClinicaRepositorio();
     public List<DetalleHistoriaClinica> obtenerDetallesHist() {
         return detRepo.listarDetHistoria();
     }
