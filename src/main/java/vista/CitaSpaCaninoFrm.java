@@ -11,54 +11,12 @@ import java.util.List;import javax.swing.JOptionPane;
 
 public class CitaSpaCaninoFrm extends javax.swing.JFrame {
 
-    private CitaSpaCaninoControlador controlador;
-    //public List<Mascota> listaMascotas;
+    private final CitaSpaCaninoControlador controlador;
     private int idCspaSeleccionado = -1;
-    private List<PersonalSpa> listaGroomers = new ArrayList<>();
+    private final List<PersonalSpa> listaGroomers = new ArrayList<>();
 
     public CitaSpaCaninoFrm() {
         initComponents();
-        tableSpa.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int fila = tableSpa.getSelectedRow();
-                if (fila >= 0) {
-                    btnAgregar.setEnabled(false);
-                    idCspaSeleccionado = Integer.parseInt(tableSpa.getValueAt(fila, 0).toString());
-                    cbxGroomer.setSelectedItem(tableSpa.getValueAt(fila, 1).toString());
-                    cbxMascota.setSelectedItem(tableSpa.getValueAt(fila, 2).toString());
-                    cbxTamano.setSelectedItem(tableSpa.getValueAt(fila, 3).toString());
-                    cbxTipoServicio.setSelectedItem(tableSpa.getValueAt(fila, 4).toString());
-                    cbxTipoBano.setSelectedItem(tableSpa.getValueAt(fila, 5).toString());
-                    cbxTipoCorte.setSelectedItem(tableSpa.getValueAt(fila, 6).toString());
-
-                    java.util.Date fecha = java.sql.Date.valueOf(tableSpa.getValueAt(fila, 7).toString());
-                    fechaSpa.setDate(fecha);
-
-                    txthoraSpa.setText(tableSpa.getValueAt(fila, 8).toString());
-
-                    String estadoTexto = tableSpa.getValueAt(fila, 9).toString();
-                    txtestado.setText(estadoTexto.equalsIgnoreCase("Activo") ? "1" : "0");
-
-                    txtprecioSpa.setText(tableSpa.getValueAt(fila, 10).toString());
-
-                    String nombreMascota = tableSpa.getValueAt(fila, 2).toString();
-
-                    cbxMascota.removeAllItems();
-
-                    cbxMascota.addItem(nombreMascota);
-
-                    cbxMascota.setSelectedItem(nombreMascota);
-
-                    cbxMascota.setEnabled(false);
-                    
-                    cbxGroomer.setEnabled(false);
-                    
-                    cbxTamano.setEnabled(false);
-
-                }
-            }
-        });
         listaGroomers.add(new PersonalSpa(0,"-Seleccione-"));
         listaGroomers.add(new PersonalSpa(1, "Abigail"));
         listaGroomers.add(new PersonalSpa(2, "Caleb"));
@@ -117,6 +75,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         cbxMascota = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
+        btnLimp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -302,6 +261,13 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
             }
         });
 
+        btnLimp.setText("Limpiar");
+        btnLimp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -316,8 +282,12 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(dnipropietario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar))
-                    .addComponent(cbxMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cbxMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLimp)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -334,8 +304,10 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(cbxMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbxMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimp))))
+                .addGap(17, 17, 17))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 400, -1));
@@ -522,6 +494,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
        return;
       }
       controlador.listarMascotaporDni(nrodoc);
+      btnBuscar.setEnabled(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarActionPerformed
@@ -543,6 +516,12 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
           cbxTipoBano.setEnabled(true);
         }
     }//GEN-LAST:event_cbxTipoServicioActionPerformed
+
+    private void btnLimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpActionPerformed
+        Limpiar();
+        btnBuscar.setEnabled(true);
+
+    }//GEN-LAST:event_btnLimpActionPerformed
   
     public static void main(String args[]) {
         FlatLightLaf.setup();
@@ -554,20 +533,21 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    public javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimp;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnregresar;
-    private javax.swing.JComboBox<String> cbxGroomer;
+    public javax.swing.JComboBox<String> cbxGroomer;
     public javax.swing.JComboBox<String> cbxMascota;
-    private javax.swing.JComboBox<String> cbxTamano;
-    private javax.swing.JComboBox<String> cbxTipoBano;
-    private javax.swing.JComboBox<String> cbxTipoCorte;
-    private javax.swing.JComboBox<String> cbxTipoServicio;
+    public javax.swing.JComboBox<String> cbxTamano;
+    public javax.swing.JComboBox<String> cbxTipoBano;
+    public javax.swing.JComboBox<String> cbxTipoCorte;
+    public javax.swing.JComboBox<String> cbxTipoServicio;
     private javax.swing.JTextField dnipropietario;
-    private com.toedter.calendar.JDateChooser fechaSpa;
+    public com.toedter.calendar.JDateChooser fechaSpa;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
@@ -590,8 +570,8 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField8;
     public javax.swing.JTable tableSpa;
-    private javax.swing.JTextField txtestado;
-    private javax.swing.JTextField txthoraSpa;
-    private javax.swing.JTextField txtprecioSpa;
+    public javax.swing.JTextField txtestado;
+    public javax.swing.JTextField txthoraSpa;
+    public javax.swing.JTextField txtprecioSpa;
     // End of variables declaration//GEN-END:variables
 }

@@ -393,14 +393,8 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
                         controlador1.eliminarDetalle(idDetSeleccionado);
                         JOptionPane.showMessageDialog(null, "Detalle Historia Eliminado Exitosamente!");
                         controlador1.listarDet();
-                        txtpeso.setText("");
-                        txttemperatura.setText("");
-                        AreaAnam.setText("");
-                        Areaobs.setText("");
-                        Areadxpre.setText("");
-                        Areadxdef.setText("");
-                        Areatra.setText("");
                         controlador1.listarDetallePorMascota(det.getMascota().getNombre());
+                        LimpiarDelete();
                     }
 
                 } else {
@@ -583,6 +577,17 @@ public class DetalleHistoriaClinicaFrm extends javax.swing.JFrame {
             AreaDet.setText("");
             DefaultTableModel modelo = (DefaultTableModel)tablaDet.getModel();
             modelo.setRowCount(0);
+    }
+    public void LimpiarDelete(){
+     btnAgregarHist.setEnabled(true);
+            txtpeso.setText("");
+            txttemperatura.setText("");
+            AreaAnam.setText("");
+            Areaobs.setText("");
+            Areadxpre.setText("");
+            Areadxdef.setText("");
+            Areatra.setText("");
+            AreaDet.setText("");
     }
     private void btnLimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpActionPerformed
          Limpiar();  

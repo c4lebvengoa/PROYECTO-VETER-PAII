@@ -134,6 +134,7 @@ vista\Login$8.class
 vista\Login$5.class
 vista\CitaMedica$2.class
 vista\MenuPrincipal$2.class
+controlador\CitaSpaCaninoControlador$2.class
 vista\CitaSpaCaninoFrm$8.class
 vista\Clientes$4.class
 vista\GestionCitaMedica.class
