@@ -1,7 +1,10 @@
 
 package controlador;
 
+import entidad.DetalleCarnetVacunacion;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import servicio.CarnetVacunaServicio;
 import vista.CarnetVacunaFrm;
 import vista.DetalleHistoriaClinicaFrm;
@@ -29,6 +32,35 @@ public class CarnetVacunaControlador {
             JOptionPane.showMessageDialog(vista, "Error al crear el carnet.");
         }
 
+    }
+     public void listarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"ID_detCarnet","Tipo de Vacunacion", "Vacuna", "Fecha Apli", "Fecha Prox","Cod_producto"
+                              }) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        List<DetalleCarnetVacunacion> detalles = servicio.obtenerDetallesVac();
+
+        for (DetalleCarnetVacunacion d : detalles) {
+            modelo.addRow(new Object[]{
+                d.getId_DetalleCarnetVacunacion(),
+                d.getNombreVacuna(),
+                d.getFechaApli(),
+                d.getProxApli(),
+                d.getProducto().getCod_Producto()
+            });
+        }
+
+        vista.tablaVacuna.setModel(modelo);
+        for (int i = 0; i < vista.tablaVacuna.getColumnCount(); i++) {
+            vista.tablaVacuna.getColumnModel().getColumn(i).setResizable(false);
+        }
     }
 }
 

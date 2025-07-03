@@ -81,13 +81,17 @@ public class CitaSpaCaninoControlador {
 
         if (mascotas != null) {
             if(vistadet!=null){
-              vistadet.listarMascotaDet(mascotas);
-              
+              vistadet.listarMascotaDet(mascotas);   
             }
-            if(vista!=null)
-            vista.listarMascota(mascotas);
-
+            if(vista!=null){
+             for(Mascota m:mascotas)
+              vista.cbxMascota.addItem(m.getNombre());
+            }
+            
         }
+    }
+    public List<Mascota> listaMasc(String nrodni){
+       return servicio.obtenerNombresMascota(nrodni);
     }
  
 

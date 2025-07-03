@@ -2,14 +2,18 @@
 package repositorio;
 
 import entidad.CarnetVacunacion;
+import entidad.DetalleCarnetVacunacion;
+import java.util.List;
 
 
 public interface ICrudCarnetVacuna {
     int CrearCarnet(int idHistoriaClinica);
-
-    int agregarVacuna(CarnetVacunacion vac);
-
-    boolean editarVacCarnet(CarnetVacunacion vac);
     
-    boolean eliminarVacCarnet(int idVacuna);
+    public List<DetalleCarnetVacunacion> listarVac();
+
+    int agregarDetVacuna(DetalleCarnetVacunacion vac);
+
+    boolean editarDetVacCarnet(CarnetVacunacion vac);
+    
+    boolean eliminarDetVacCarnet(int idVacuna);
 }

@@ -110,6 +110,7 @@ vista\DetalleHistoriaClinicaFrm$12.class
 vista\RegistrarProveedor$2.class
 vista\RegistrarCliente$2.class
 vista\CitaSpaCaninoFrm$6.class
+controlador\CarnetVacunaControlador$1.class
 servicio\LoginServicio.class
 vista\CarnetVacunaFrm.class
 vista\GestionCitaMedica$5.class

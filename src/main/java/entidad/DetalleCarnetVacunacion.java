@@ -14,13 +14,31 @@ public class DetalleCarnetVacunacion {
     
     private int id_DetalleCarnetVacunacion;
     private String tratamiento;
+    private String nombreVacuna;
     private String tipoDesparasitacion;
     private Producto producto;
     private Date fechaApli;
     private Date proxApli;
-
+    private int id_carnetVacuna;
     public DetalleCarnetVacunacion() {
     }
+    public int getId_carnetVacuna() {
+        return id_carnetVacuna;
+    }
+
+    public void setId_carnetVacuna(int id_carnetVacuna) {
+        this.id_carnetVacuna = id_carnetVacuna;
+    }
+    
+
+    public String getNombreVacuna() {
+        return nombreVacuna;
+    }
+
+    public void setNombreVacuna(String nombreVacuna) {
+        this.nombreVacuna = nombreVacuna;
+    }
+    
 
     public int getId_DetalleCarnetVacunacion() {
         return id_DetalleCarnetVacunacion;

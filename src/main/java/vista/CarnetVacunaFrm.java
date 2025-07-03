@@ -43,6 +43,8 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
         txttipoDesp = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtidhistoria = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         fechaproxCan = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
@@ -103,7 +105,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
         jLabel10.setText("Dni Propietario");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
 
-        cbxTipoVacuna.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "CANINA", "FELINA", " " }));
+        cbxTipoVacuna.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "Canina", "Felina", " " }));
         cbxTipoVacuna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxTipoVacunaActionPerformed(evt);
@@ -136,7 +138,11 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
         });
         jPanel2.add(txtidhistoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 200, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 340, 440));
+        jLabel7.setText("Producto:");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 300, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 340, 510));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CARNET DE VACUNACIÓN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
@@ -224,7 +230,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "N° Vacuna", "Tipo de Vacunación", "Vacuna", "Fecha Apli", "Fecha Prox"
+                "ID_detCarnet", "Tipo de Vacunación", "Vacuna", "Fecha Apli", "Fecha Prox"
             }
         ));
         jScrollPane1.setViewportView(tablaVacuna);
@@ -242,7 +248,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 90, 30));
+        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, 90, 30));
 
         btnEditar.setBackground(new java.awt.Color(254, 183, 7));
         btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -253,7 +259,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, 80, 30));
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 570, 80, 30));
 
         btnLimpiar.setBackground(new java.awt.Color(51, 51, 51));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -264,7 +270,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 500, 80, 30));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 570, 80, 30));
 
         btnEliminar.setBackground(new java.awt.Color(254, 0, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -275,7 +281,7 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
                 btnEliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, 80, 30));
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 570, 80, 30));
 
         btnregresar.setBackground(new java.awt.Color(0, 145, 145));
         btnregresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -371,12 +377,14 @@ public class CarnetVacunaFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable tablaVacuna;
+    private javax.swing.JTextField jTextField1;
+    public javax.swing.JTable tablaVacuna;
     private javax.swing.JTextField txtMascota;
     private javax.swing.JTextField txtPropietario;
     private javax.swing.JTextField txtidCarnet;

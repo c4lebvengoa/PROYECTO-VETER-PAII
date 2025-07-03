@@ -6,13 +6,13 @@ import entidad.CitaSpaCanino;
 import entidad.Mascota;
 import entidad.PersonalSpa;
 import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.List;import javax.swing.JOptionPane;
+
 
 public class CitaSpaCaninoFrm extends javax.swing.JFrame {
 
     private CitaSpaCaninoControlador controlador;
-    public List<Mascota> listaMascotas;
+    //public List<Mascota> listaMascotas;
     private int idCspaSeleccionado = -1;
     private List<PersonalSpa> listaGroomers = new ArrayList<>();
 
@@ -59,10 +59,10 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
                 }
             }
         });
-
-        listaGroomers.add(new PersonalSpa(0, "Abigail"));
-        listaGroomers.add(new PersonalSpa(1, "Caleb"));
-        listaGroomers.add(new PersonalSpa(2, "Cristhian"));
+        listaGroomers.add(new PersonalSpa(0,"-Seleccione-"));
+        listaGroomers.add(new PersonalSpa(1, "Abigail"));
+        listaGroomers.add(new PersonalSpa(2, "Caleb"));
+        listaGroomers.add(new PersonalSpa(3, "Cristhian"));
         for (PersonalSpa g : listaGroomers) {
             cbxGroomer.addItem(g.getNombre());
         }
@@ -73,12 +73,6 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         controlador.listarTabla();
     }
 
-    public void listarMascota(List<Mascota> lista) {
-        listaMascotas = lista;
-        for (Mascota m : lista) {
-            cbxMascota.addItem(m.getNombre());
-        }
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -212,7 +206,6 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
         cbxTamano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-", "PEQUEÑO", "MEDIANO", "GRANDE" }));
         jPanel7.add(cbxTamano, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 200, -1));
 
-        cbxGroomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-" }));
         jPanel7.add(cbxGroomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 200, -1));
 
         fechaSpa.setDateFormatString("yyyy-MM-dd");
@@ -382,13 +375,13 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione una mascota");
                 return;
             }
-            Mascota mascota = listaMascotas.get(indexMascota);
-            if (mascota.getId_Mascota() <= 0) {
-                JOptionPane.showMessageDialog(this, "La mascota no tiene ID válido");
-                return;
+            List<Mascota> mascota = controlador.listaMasc(dnipropietario.getText());
+            Mascota m=new Mascota();
+            for(Mascota masc:mascota){
+              if(masc.getNombre().equalsIgnoreCase(cbxMascota.getSelectedItem().toString()))
+               m=masc;
             }
-
-            cita.setMascota(mascota);
+            cita.setMascota(m);
 
             int indexGroomer = cbxGroomer.getSelectedIndex();
             PersonalSpa groomer = listaGroomers.get(indexGroomer);
@@ -416,7 +409,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
             }
 
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "RELLENE TODOS LOS CAMPOS!.");
+            JOptionPane.showMessageDialog(null, "Rellene Todos Los Campos!.");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -568,7 +561,7 @@ public class CitaSpaCaninoFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnregresar;
     private javax.swing.JComboBox<String> cbxGroomer;
-    private javax.swing.JComboBox<String> cbxMascota;
+    public javax.swing.JComboBox<String> cbxMascota;
     private javax.swing.JComboBox<String> cbxTamano;
     private javax.swing.JComboBox<String> cbxTipoBano;
     private javax.swing.JComboBox<String> cbxTipoCorte;

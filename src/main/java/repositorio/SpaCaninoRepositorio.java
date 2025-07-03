@@ -88,9 +88,9 @@ public class SpaCaninoRepositorio implements ICrudSpaCanino {
     @Override
     public List<Mascota> listarMascotaporDni(String numdni) {
         List<Mascota> lista = new ArrayList<>();
-        String sql = "SELECT m.id_mascota, m.nombre_mas, c.nro_doc_cli "
-                + "FROM Cliente c "
-                + "JOIN Mascota m ON c.cod_cliente = m.cod_cliente "
+        String sql = "SELECT m.id_mascota, m.nombre_mas "
+                + "FROM Mascota m "
+                + "INNER JOIN Cliente c ON c.cod_cliente = m.cod_cliente "
                 + "WHERE c.nro_doc_cli = ?";
 
         try (Connection con = ConexionBD.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
