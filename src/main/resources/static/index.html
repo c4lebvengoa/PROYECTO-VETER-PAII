@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Biblioteca</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 0.5rem;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            transition: transform 0.15s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .stats-card {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .error-message {
+            display: none;
+            margin: 1rem 0;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <h4 class="text-white text-center mb-4">📚 Biblioteca</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard" data-tab="dashboard">
+                                <i class="bi bi-house"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#usuarios" data-tab="usuarios">
+                                <i class="bi bi-people"></i> Usuarios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#libros" data-tab="libros">
+                                <i class="bi bi-book"></i> Libros
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#autores" data-tab="autores">
+                                <i class="bi bi-person"></i> Autores
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#categorias" data-tab="categorias">
+                                <i class="bi bi-tags"></i> Categorías
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Dashboard -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Dashboard</h1>
+                        <button class="btn btn-outline-primary" onclick="actualizarDashboard()">
+                            <i class="bi bi-arrow-clockwise"></i> Actualizar
+                        </button>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card stats-card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-people fs-1"></i>
+                                    <h3 id="totalUsuarios">-</h3>
+                                    <p>Usuarios Activos</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stats-card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-book fs-1"></i>
+                                    <h3 id="totalLibros">-</h3>
+                                    <p>Total Libros</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stats-card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-calendar-check fs-1"></i>
+                                    <h3 id="totalPrestamos">-</h3>
+                                    <p>Préstamos Activos</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stats-card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-exclamation-triangle fs-1"></i>
+                                    <h3 id="totalVencidos">-</h3>
+                                    <p>Préstamos Vencidos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuarios -->
+                <div id="usuarios" class="tab-content">
+                    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Usuarios</h1>
+                        <button class="btn btn-primary" onclick="abrirModalUsuario()">
+                            <i class="bi bi-plus"></i> Nuevo Usuario
+                        </button>
+                    </div>
+                    
+                    <div class="loading" id="loadingUsuarios">
+                        <div class="spinner-border" role="status"></div>
+                        <p>Cargando usuarios...</p>
+                    </div>
+                    
+                    <div class="alert alert-danger error-message" id="errorUsuarios"></div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Código</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaUsuarios"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Libros -->
+                <div id="libros" class="tab-content">
+                    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Libros</h1>
+                        <div>
+                            <button class="btn btn-outline-secondary me-2" onclick="cargarAutoresSelect(); cargarCategoriasSelect();">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                            <button class="btn btn-primary" onclick="abrirModalLibro()">
+                                <i class="bi bi-plus"></i> Nuevo Libro
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="buscarTitulo" placeholder="Buscar por título...">
+                                <button class="btn btn-outline-secondary" onclick="buscarLibros()">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filtroCategoria" onchange="buscarLibros()">
+                                <option value="">Todas las categorías</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filtroDisponible" onchange="buscarLibros()">
+                                <option value="">Todos</option>
+                                <option value="true">Disponibles</option>
+                                <option value="false">No disponibles</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="loading" id="loadingLibros">
+                        <div class="spinner-border" role="status"></div>
+                        <p>Cargando libros...</p>
+                    </div>
+                    
+                    <div class="alert alert-danger error-message" id="errorLibros"></div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Año</th>
+                                    <th>Total</th>
+                                    <th>Disponible</th>
+                                    <th>Categoría</th>
+                                    <th>Autor</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaLibros"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Autores -->
+                <div id="autores" class="tab-content">
+                    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Autores</h1>
+                        <button class="btn btn-primary" onclick="abrirModalAutor()">
+                            <i class="bi bi-plus"></i> Nuevo Autor
+                        </button>
+                    </div>
+                    
+                    <div class="loading" id="loadingAutores">
+                        <div class="spinner-border" role="status"></div>
+                        <p>Cargando autores...</p>
+                    </div>
+                    
+                    <div class="alert alert-danger error-message" id="errorAutores"></div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaAutores"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Categorías -->
+                <div id="categorias" class="tab-content">
+                    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Categorías</h1>
+                        <button class="btn btn-primary" onclick="abrirModalCategoria()">
+                            <i class="bi bi-plus"></i> Nueva Categoría
+                        </button>
+                    </div>
+                    
+                    <div class="loading" id="loadingCategorias">
+                        <div class="spinner-border" role="status"></div>
+                        <p>Cargando categorías...</p>
+                    </div>
+                    
+                    <div class="alert alert-danger error-message" id="errorCategorias"></div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCategorias"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modales -->
+    <!-- Modal Usuario -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formUsuario">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombreUsu" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombreUsu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellPat" class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" name="apellPat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellMat" class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" name="apellMat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="codUsu" class="form-label">Código</label>
+                            <input type="text" class="form-control" name="codUsu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telf" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" name="telf" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="contrasena">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Libro -->
+    <div class="modal fade" id="modalLibro" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Libro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formLibro">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="titulo" class="form-label">Título</label>
+                                    <input type="text" class="form-control" name="titulo" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="anioPubli" class="form-label">Año de Publicación</label>
+                                    <input type="date" class="form-control" name="anioPubli" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="autorId" class="form-label">Autor</label>
+                                    <select class="form-select" name="autorId" required>
+                                        <option value="">Seleccione un autor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="categoriaId" class="form-label">Categoría</label>
+                                    <select class="form-select" name="categoriaId" required>
+                                        <option value="">Seleccione una categoría</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cantTotal" class="form-label">Cantidad Total</label>
+                            <input type="number" class="form-control" name="cantTotal" min="1" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Autor -->
+    <div class="modal fade" id="modalAutor" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Autor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formAutor">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellPat" class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" name="apellPat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellMat" class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" name="apellMat" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Categoría -->
+    <div class="modal fade" id="modalCategoria" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formCategoria">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombreCat" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombreCat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" name="descripcion" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
